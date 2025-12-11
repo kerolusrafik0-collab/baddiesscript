@@ -543,7 +543,7 @@ local function logAllPlayers()
     log("Attempting to log all players to webhook.")
 end
 
--- UI Toggles and Buttons
+-- UI Toggles and Buttons (Mocked)
 
 combatTab.CreateToggle("Aura (Auto-Hit)", false, function(state)
     if state then
@@ -591,4 +591,24 @@ loggingTab.CreateButton("Log All Players to Webhook", logAllPlayers)
 dupeTab.CreateButton("Dupe Item (Equipped/Backpack)", dupeItem)
 
 -- Initial setup for persistent features (if any)
-log("Script loaded successfully. Press RightShift to open the GUI.")
+log("Script loaded successfully. GUI is mocked. Auto-enabling core features for testing.")
+
+-- AUTO-ENABLE CORE FEATURES FOR TESTING
+task.spawn(function()
+    -- Wait for the character to load
+    if not LocalPlayer.Character then
+        LocalPlayer.CharacterAdded:Wait()
+    end
+    
+    -- 1. Enable Fly
+    enableFly()
+    
+    -- 2. Enable Aura
+    auraConnection = RunService.Heartbeat:Connect(auraLoop)
+    log("Aura enabled automatically.")
+    
+    -- 3. Enable God Mode
+    godMode(true)
+    
+    log("Core features (Fly, Aura, God Mode) are now active. Test them in-game.")
+end)
